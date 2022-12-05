@@ -3,8 +3,8 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "predeploy" : "yarn build",
-    "public": "public",
+    "predeploy" : "yarn && yarn build",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",

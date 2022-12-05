@@ -13,7 +13,7 @@
 		</v-card-text>
 		<v-card-actions class="login-card-actions mb-5 px-5">
 			<v-btn @click="authLogin" dense color="#00647C" dark width="100%" class="mb-5">Entrar</v-btn>
-			<v-btn @click="$emit('showRegister', true)" dense outlined color="#00647C" width="100%">Cadastrar</v-btn>
+			<span>Não possui cadastro? <a @click="$emit('showRegister', true)" class="register-link">Cadastre-se</a></span>
 		</v-card-actions>
 	</v-card>
 </template>
@@ -48,6 +48,12 @@ export default {
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		.register-link{
+			color:#00647C;
+			&:hover{
+				text-decoration: underline
+			}
+		}
 	}
 }
 </style>

@@ -1,12 +1,15 @@
 <template>
   <v-card class="register-card">
     <v-card-header class="register-card-header">
+      <v-btn icon @click="$emit('showLogin', false)" dense color="#00647C"
+        class="mx-5"><v-icon>mdi-chevron-left</v-icon></v-btn>
       <p class="display-1 pt-5">Cadastro</p>
+      <v-spacer></v-spacer>
     </v-card-header>
     <v-card-text>
       <v-container>
         <v-row>
-          <v-col cols="5">
+          <v-col class="register-form-scroll">
             <p>Dados pessoais</p>
             <v-text-field color="#00647C" outlined dense label="Nome">
             </v-text-field>
@@ -18,8 +21,6 @@
             </v-text-field>
             <v-text-field color="#00647C" outlined dense label="Senha" type="password">
             </v-text-field>
-          </v-col>
-          <v-col >
             <p>Endereço</p>
             <v-text-field color="#00647C" outlined dense label="País">
             </v-text-field>
@@ -42,11 +43,10 @@
           </v-col>
         </v-row>
       </v-container>
-      
+
     </v-card-text>
-    <v-card-actions class="register-card-actions mb-2 px-7">
+    <v-card-actions class="register-card-actions mb-5 px-7">
       <v-btn @click="authLogin" dense color="#00647C" dark width="100%" class="mb-5">Cadastrar</v-btn>
-      <v-btn @click="$emit('showLogin', false)" dense outlined color="#00647C" width="100%" class="ml-0">Voltar</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -74,7 +74,17 @@ export default {
   .register-card-header {
     text-align: center;
     color: #00647C;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
+  
+  .register-form-scroll{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 400px;
+  }
+
   .register-card-row {
     display: flex;
     align-items: center;

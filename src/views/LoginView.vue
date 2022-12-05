@@ -30,7 +30,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("@/assets/ptt-background.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
