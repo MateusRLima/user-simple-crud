@@ -6,7 +6,7 @@
           <v-spacer></v-spacer>
           <v-toolbar-title>
             <p class="display-1 mb-0 home-toolbar-title">
-              Bem vindo, {{ nomeUsuario.substring(0, nomeUsuario.indexOf(' ')) }}
+              Bem vindo, {{ nomeUsuario }}
             </p>
           </v-toolbar-title>
           <v-spacer></v-spacer>
