@@ -7,8 +7,8 @@
 			<v-form ref="loginForm" v-model="valido">
 				<v-text-field v-model="email" :rules="emailRegras" color="#00647C" outlined dense label="E-mail">
 				</v-text-field>
-				<v-text-field :append-icon="senhaEscondida ? 'mdi-eye' : 'mdi-eye-off'" v-model="senha"
-					:rules="senhaRegras" color="#00647C" outlined dense label="Senha" :type="senhaEscondida ? 'text' : 'password'"
+				<v-text-field :append-icon="senhaEscondida ? 'mdi-eye' : 'mdi-eye-off'" v-model="senha" :rules="senhaRegras"
+					color="#00647C" outlined dense label="Senha" :type="senhaEscondida ? 'text' : 'password'"
 					@click:append="senhaEscondida = !senhaEscondida">
 				</v-text-field>
 			</v-form>
@@ -22,7 +22,7 @@
 </template>
 <script>
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../main"
+import { auth } from "@/main"
 
 export default {
 	name: "LoginCard",
@@ -53,7 +53,6 @@ export default {
 					},
 						(err) => {
 							let errCode = err.code
-							console.log(err.code)
 							switch (errCode) {
 								case 'auth/user-not-found':
 									this.mensagemErro = "Usuário não existe"
@@ -75,11 +74,9 @@ export default {
 .login-card {
 	width: 20rem;
 	background: rgba(255, 255, 255, 0.85);
-	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 	backdrop-filter: blur(4px);
 	-webkit-backdrop-filter: blur(4px);
 	border-radius: 10px;
-	border: 1px solid rgba(255, 255, 255, 0.18);
 
 	.login-card-header {
 		color: #00647C;

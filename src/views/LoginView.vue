@@ -25,20 +25,10 @@ export default {
 </script>
 
 <style>
-@keyframes bg {
-  100% {
-    background-size: 4000px 1000px;
-  }
-}
-
 .fullscreen-login {
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('@/assets/bg.svg');
-  background-size: 2000px 1000px;
-  background-position: -500px 0;
-  animation: bg 10s infinite alternate linear;
 }
 </style>
