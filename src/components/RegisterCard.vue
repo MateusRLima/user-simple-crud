@@ -7,7 +7,7 @@
       <v-spacer></v-spacer>
     </v-card-title>
     <v-card-text>
-      <v-container>
+      <v-container class="px-0">
         <v-row>
           <v-col class="register-form-scroll">
             <p>Dados pessoais</p>
@@ -126,7 +126,12 @@ export default {
 <style scoped lang="scss">
 .register-card {
   width: 40rem;
-  background-color: #FAFAFA;
+  background: rgba(255, 255, 255, 0.85);
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
 
   .register-card-header {
     text-align: center;

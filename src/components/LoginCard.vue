@@ -7,8 +7,8 @@
 			<v-form ref="loginForm" v-model="valido">
 				<v-text-field v-model="email" :rules="emailRegras" color="#00647C" outlined dense label="E-mail">
 				</v-text-field>
-				<v-text-field :append-icon="senhaEscondida ? 'mdi-eye' : 'mdi-eye-off'" v-model="senha" :rules="senhaRegras"
-					color="#00647C" outlined dense label="Senha" :type="senhaEscondida ? 'text' : 'password'"
+				<v-text-field :append-icon="senhaEscondida ? 'mdi-eye' : 'mdi-eye-off'" v-model="senha"
+					:rules="senhaRegras" color="#00647C" outlined dense label="Senha" :type="senhaEscondida ? 'text' : 'password'"
 					@click:append="senhaEscondida = !senhaEscondida">
 				</v-text-field>
 			</v-form>
@@ -74,7 +74,12 @@ export default {
 <style scoped lang="scss">
 .login-card {
 	width: 20rem;
-	background-color: #FAFAFA;
+	background: rgba(255, 255, 255, 0.85);
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
 
 	.login-card-header {
 		color: #00647C;
@@ -86,9 +91,11 @@ export default {
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		color: #00647C;
 
 		.register-link {
 			color: #00647C;
+			font-weight: bold;
 
 			&:hover {
 				text-decoration: underline
