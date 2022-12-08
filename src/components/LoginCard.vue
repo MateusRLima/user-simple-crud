@@ -4,7 +4,7 @@
 			<p class="display-1 pt-5">Olá visitante</p>
 		</v-card-title>
 		<v-card-text>
-			<v-form ref="form" v-model="valido">
+			<v-form ref="loginForm" v-model="valido">
 				<v-text-field v-model="email" :rules="emailRegras" color="#00647C" outlined dense label="Usuário"
 					hint="CPF / E-mail / PIS">
 				</v-text-field>
@@ -44,7 +44,7 @@ export default {
 
 	methods: {
 		logarUsuario() {
-			this.valido = this.$refs.form.validate()
+			this.valido = this.$refs.loginForm.validate()
 
 			if (this.valido) {
 				signInWithEmailAndPassword(auth, this.email, this.senha)

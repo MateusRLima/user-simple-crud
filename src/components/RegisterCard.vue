@@ -11,38 +11,44 @@
         <v-row>
           <v-col class="register-form-scroll">
             <p>Dados pessoais</p>
-            <v-form>
+            <v-form v-model="valido" ref="cadastroForm">
               <v-text-field color="#00647C" v-model="nome" outlined dense label="Nome" :rules="[regras.obrigatorio]">
               </v-text-field>
               <v-text-field color="#00647C" v-model="email" outlined dense label="E-mail"
                 :rules="[regras.obrigatorio, regras.email]">
               </v-text-field>
               <v-text-field :append-icon="senhaEscondida ? 'mdi-eye' : 'mdi-eye-off'" v-model="senha"
-                :rules="senhaRegras" color="#00647C" outlined dense label="Senha"
+                :rules="[regras.obrigatorio]" color="#00647C" outlined dense label="Senha"
                 :type="senhaEscondida ? 'text' : 'password'" @click:append="senhaEscondida = !senhaEscondida">
               </v-text-field>
-              <v-text-field color="#00647C" v-model="cpf" outlined dense label="CPF">
+              <v-text-field color="#00647C" v-model="cpf" outlined dense label="CPF" :rules="[regras.obrigatorio]">
               </v-text-field>
-              <v-text-field color="#00647C" v-model="pis" outlined dense label="PIS">
+              <v-text-field color="#00647C" v-model="pis" outlined dense label="PIS" :rules="[regras.obrigatorio]">
               </v-text-field>
               <p>Endereço</p>
               <div class="register-card-row">
-                <v-text-field class="mr-5" color="#00647C" v-model="cep" outlined dense label="CEP">
+                <v-text-field class="mr-5" color="#00647C" v-model="cep" outlined dense label="CEP"
+                  :rules="[regras.obrigatorio]">
                 </v-text-field>
-                <v-text-field color="#00647C" v-model="pais" outlined dense label="País">
+                <v-text-field color="#00647C" v-model="pais" outlined dense label="País" :rules="[regras.obrigatorio]">
                 </v-text-field>
               </div>
-              <v-text-field color="#00647C" v-model="estado" outlined dense label="Estado">
+              <v-text-field color="#00647C" v-model="estado" outlined dense label="Estado"
+                :rules="[regras.obrigatorio]">
               </v-text-field>
-              <v-text-field color="#00647C" v-model="municipio" outlined dense label="Município">
+              <v-text-field color="#00647C" v-model="municipio" outlined dense label="Município"
+                :rules="[regras.obrigatorio]">
               </v-text-field>
               <div class="register-card-row">
-                <v-text-field class="mr-5" color="#00647C" v-model="rua" outlined dense label="Rua">
+                <v-text-field class="mr-5" color="#00647C" v-model="rua" outlined dense label="Rua"
+                  :rules="[regras.obrigatorio]">
                 </v-text-field>
-                <v-text-field color="#00647C" v-model="numero" outlined dense label="Número">
+                <v-text-field color="#00647C" v-model="numero" outlined dense label="Número"
+                  :rules="[regras.obrigatorio]">
                 </v-text-field>
               </div>
-              <v-text-field color="#00647C" v-model="complemento" outlined dense label="Complemento">
+              <v-text-field color="#00647C" v-model="complemento" outlined dense label="Complemento"
+                :rules="[regras.obrigatorio]">
               </v-text-field>
             </v-form>
           </v-col>
@@ -82,32 +88,36 @@ export default {
     regras: {
       obrigatorio: v => !!v || 'Campo obrigatório',
       email: v => /.+@.+\..+/.test(v) || 'E-mail precisa ser válido'
-    }
+    },
+    valido: false
   }),
 
   methods: {
     registrarUsuario() {
-      createUserWithEmailAndPassword(auth, this.email, this.senha).then(
-        () => {
-          set(ref(db, 'usuarios/' + auth.currentUser.uid), {
-            nome: this.nome,
-            email: this.email,
-            senha: this.senha,
-            cpf: this.cpf,
-            pis: this.pis,
-            cep: this.cep,
-            pais: this.pais,
-            estado: this.estado,
-            municipio: this.municipio,
-            rua: this.rua,
-            numero: this.numero,
-            complemento: this.complemento ? this.complemento : "Sem complemento"
-          })
-        },
-        (err) => {
-          alert("Algo deu errado: " + err)
-        }
-      )
+      this.valido = this.$refs.cadastroForm.validate()
+      if (this.valido) {
+        createUserWithEmailAndPassword(auth, this.email, this.senha).then(
+          () => {
+            set(ref(db, 'usuarios/' + auth.currentUser.uid), {
+              nome: this.nome,
+              email: this.email,
+              senha: this.senha,
+              cpf: this.cpf,
+              pis: this.pis,
+              cep: this.cep,
+              pais: this.pais,
+              estado: this.estado,
+              municipio: this.municipio,
+              rua: this.rua,
+              numero: this.numero,
+              complemento: this.complemento ? this.complemento : "Sem complemento"
+            })
+          },
+          (err) => {
+            alert("Algo deu errado: " + err)
+          }
+        )
+      }
     }
   }
 }
