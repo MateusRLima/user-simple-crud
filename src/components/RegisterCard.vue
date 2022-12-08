@@ -112,6 +112,7 @@ export default {
               numero: this.numero,
               complemento: this.complemento ? this.complemento : "Sem complemento"
             })
+            this.$router.push("/home")
           },
           (err) => {
             alert("Algo deu errado: " + err)
