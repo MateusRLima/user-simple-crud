@@ -1,7 +1,8 @@
 <template>
   <v-card class="register-card">
     <v-card-title class="register-card-header">
-      <v-btn icon @click="$emit('showLogin', false)" dense color="#00647C" class="mr-5"><v-icon>mdi-chevron-left</v-icon></v-btn>
+      <v-btn icon @click="$emit('showLogin', false)" dense color="#00647C"
+        class="mr-5"><v-icon>mdi-chevron-left</v-icon></v-btn>
       <p class="display-1 pt-5">Cadastro</p>
       <v-spacer></v-spacer>
     </v-card-title>
@@ -10,35 +11,40 @@
         <v-row>
           <v-col class="register-form-scroll">
             <p>Dados pessoais</p>
-            <v-text-field color="#00647C" v-model="nome" outlined dense label="Nome">
-            </v-text-field>
-            <v-text-field color="#00647C" v-model="email" outlined dense label="E-mail">
-            </v-text-field>
-            <v-text-field color="#00647C" v-model="senha" outlined dense label="Senha" type="password">
-            </v-text-field>
-            <v-text-field color="#00647C" v-model="cpf" outlined dense label="CPF">
-            </v-text-field>
-            <v-text-field color="#00647C" v-model="pis" outlined dense label="PIS">
-            </v-text-field>
-            <p>Endereço</p>
-            <div class="register-card-row">
-              <v-text-field class="mr-5" color="#00647C" v-model="cep" outlined dense label="CEP">
+            <v-form>
+              <v-text-field color="#00647C" v-model="nome" outlined dense label="Nome" :rules="[regras.obrigatorio]">
               </v-text-field>
-              <v-text-field color="#00647C" v-model="pais" outlined dense label="País">
+              <v-text-field color="#00647C" v-model="email" outlined dense label="E-mail"
+                :rules="[regras.obrigatorio, regras.email]">
               </v-text-field>
-            </div>
-            <v-text-field color="#00647C" v-model="estado" outlined dense label="Estado">
-            </v-text-field>
-            <v-text-field color="#00647C" v-model="municipio" outlined dense label="Município">
-            </v-text-field>
-            <div class="register-card-row">
-              <v-text-field class="mr-5" color="#00647C" v-model="rua" outlined dense label="Rua">
+              <v-text-field :append-icon="senhaEscondida ? 'mdi-eye' : 'mdi-eye-off'" v-model="senha"
+                :rules="senhaRegras" color="#00647C" outlined dense label="Senha"
+                :type="senhaEscondida ? 'text' : 'password'" @click:append="senhaEscondida = !senhaEscondida">
               </v-text-field>
-              <v-text-field color="#00647C" v-model="numero" outlined dense label="Número">
+              <v-text-field color="#00647C" v-model="cpf" outlined dense label="CPF">
               </v-text-field>
-            </div>
-            <v-text-field color="#00647C" v-model="complemento" outlined dense label="Complemento">
-            </v-text-field>
+              <v-text-field color="#00647C" v-model="pis" outlined dense label="PIS">
+              </v-text-field>
+              <p>Endereço</p>
+              <div class="register-card-row">
+                <v-text-field class="mr-5" color="#00647C" v-model="cep" outlined dense label="CEP">
+                </v-text-field>
+                <v-text-field color="#00647C" v-model="pais" outlined dense label="País">
+                </v-text-field>
+              </div>
+              <v-text-field color="#00647C" v-model="estado" outlined dense label="Estado">
+              </v-text-field>
+              <v-text-field color="#00647C" v-model="municipio" outlined dense label="Município">
+              </v-text-field>
+              <div class="register-card-row">
+                <v-text-field class="mr-5" color="#00647C" v-model="rua" outlined dense label="Rua">
+                </v-text-field>
+                <v-text-field color="#00647C" v-model="numero" outlined dense label="Número">
+                </v-text-field>
+              </div>
+              <v-text-field color="#00647C" v-model="complemento" outlined dense label="Complemento">
+              </v-text-field>
+            </v-form>
           </v-col>
         </v-row>
       </v-container>
@@ -63,6 +69,7 @@ export default {
     nome: "",
     email: "",
     senha: "",
+    senhaEscondida: false,
     cpf: "",
     pis: "",
     cep: "",
@@ -72,6 +79,10 @@ export default {
     rua: "",
     numero: "",
     complemento: "",
+    regras: {
+      obrigatorio: v => !!v || 'Campo obrigatório',
+      email: v => /.+@.+\..+/.test(v) || 'E-mail precisa ser válido'
+    }
   }),
 
   methods: {

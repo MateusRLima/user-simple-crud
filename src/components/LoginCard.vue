@@ -4,15 +4,18 @@
 			<p class="display-1 pt-5">Olá visitante</p>
 		</v-card-title>
 		<v-card-text>
-			<v-form>
-				<v-text-field v-model="login" color="#00647C" outlined dense label="Login" hint="CPF / E-mail / PIS">
+			<v-form ref="form" v-model="valido">
+				<v-text-field v-model="email" :rules="emailRegras" color="#00647C" outlined dense label="Usuário"
+					hint="CPF / E-mail / PIS">
 				</v-text-field>
-				<v-text-field v-model="senha" color="#00647C" outlined dense label="Senha" type="password">
+				<v-text-field :append-icon="senhaEscondida ? 'mdi-eye' : 'mdi-eye-off'" v-model="senha" :rules="senhaRegras"
+					color="#00647C" outlined dense label="Senha" :type="senhaEscondida ? 'text' : 'password'" @click:append="senhaEscondida = !senhaEscondida">
 				</v-text-field>
 			</v-form>
+			<p class="caption red--text ma-0 text-center">{{ mensagemErro }}</p>
 		</v-card-text>
 		<v-card-actions class="login-card-actions mb-5 px-5">
-			<v-btn @click="loginUsuario" dense color="#00647C" dark width="100%" class="mb-5">Entrar</v-btn>
+			<v-btn @click="logarUsuario" dense color="#00647C" dark width="100%" class="mb-5">Entrar</v-btn>
 			<span>Não possui cadastro? <a @click="$emit('showRegister', true)" class="register-link">Cadastre-se</a></span>
 		</v-card-actions>
 	</v-card>
@@ -25,27 +28,50 @@ export default {
 	name: "LoginCard",
 
 	data: () => ({
-		login: "",
+		email: "",
+		emailRegras: [
+			v => !!v || 'E-mail está vázio',
+			v => /.+@.+\..+/.test(v) || 'E-mail precisa ser válido',
+		],
 		senha: "",
+		senhaRegras: [
+			v => !!v || 'Senha está vázio',
+		],
+		senhaEscondida: false,
+		valido: false,
+		mensagemErro: ""
 	}),
 
 	methods: {
-		loginUsuario(){
-			signInWithEmailAndPassword(auth, this.login, this.senha)
-			.then((credencialUsuario) => {
-				console.log(credencialUsuario)
-				this.$router.push("/home")
-			},
-			(err) => {
-				alert("Algo deu errado: " + err)
+		logarUsuario() {
+			this.valido = this.$refs.form.validate()
+
+			if (this.valido) {
+				signInWithEmailAndPassword(auth, this.email, this.senha)
+					.then(() => {
+						this.$router.push("/home")
+					},
+						(err) => {
+							let errCode = err.code
+							console.log(err.code)
+							switch (errCode) {
+								case 'auth/user-not-found':
+									this.mensagemErro = "Usuário não existe"
+									break;
+								case 'auth/wrong-password':
+									this.mensagemErro = "E-mail ou senha incorreto"
+									break;
+								default:
+									break;
+							}
+						}
+					)
 			}
-			)
 		}
 	}
 }
 </script>
 <style scoped lang="scss">
-
 .login-card {
 	width: 20rem;
 	background-color: #FAFAFA;
@@ -54,14 +80,17 @@ export default {
 		color: #00647C;
 		justify-content: center;
 	}
+
 	.login-card-actions {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		.register-link{
-			color:#00647C;
-			&:hover{
+
+		.register-link {
+			color: #00647C;
+
+			&:hover {
 				text-decoration: underline
 			}
 		}
