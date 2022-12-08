@@ -1,34 +1,45 @@
 <template>
 	<v-card class="login-card">
-		<v-card-header class="login-card-header">
+		<v-card-title class="login-card-header">
 			<p class="display-1 pt-5">Olá visitante</p>
-		</v-card-header>
+		</v-card-title>
 		<v-card-text>
 			<v-form>
-				<v-text-field color="#00647C" outlined dense label="Login" hint="CPF / E-mail / PIS">
+				<v-text-field v-model="login" color="#00647C" outlined dense label="Login" hint="CPF / E-mail / PIS">
 				</v-text-field>
-				<v-text-field color="#00647C" outlined dense label="Senha" type="password">
+				<v-text-field v-model="senha" color="#00647C" outlined dense label="Senha" type="password">
 				</v-text-field>
 			</v-form>
 		</v-card-text>
 		<v-card-actions class="login-card-actions mb-5 px-5">
-			<v-btn @click="authLogin" dense color="#00647C" dark width="100%" class="mb-5">Entrar</v-btn>
+			<v-btn @click="loginUsuario" dense color="#00647C" dark width="100%" class="mb-5">Entrar</v-btn>
 			<span>Não possui cadastro? <a @click="$emit('showRegister', true)" class="register-link">Cadastre-se</a></span>
 		</v-card-actions>
 	</v-card>
 </template>
 <script>
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../main"
+
 export default {
 	name: "LoginCard",
 
 	data: () => ({
 		login: "",
-		password: "",
+		senha: "",
 	}),
 
 	methods: {
-		authLogin(){
-			this.$router.push("/about")
+		loginUsuario(){
+			signInWithEmailAndPassword(auth, this.login, this.senha)
+			.then((credencialUsuario) => {
+				console.log(credencialUsuario)
+				this.$router.push("/home")
+			},
+			(err) => {
+				alert("Algo deu errado: " + err)
+			}
+			)
 		}
 	}
 }
@@ -40,8 +51,8 @@ export default {
 	background-color: #FAFAFA;
 
 	.login-card-header {
-		text-align: center;
 		color: #00647C;
+		justify-content: center;
 	}
 	.login-card-actions {
 		display: flex;

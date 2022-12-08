@@ -1,14 +1,14 @@
 <template>
   <div class="fullscreen-login">
-    <login-card @showRegister="(show = $event)" v-if="!show" />
-    <register-card @showLogin="(show = $event)" v-else />
+    <LoginCard @showRegister="(show = $event)" v-if="!show" />
+    <RegisterCard @showLogin="(show = $event)" v-else />
   </div>
 </template>
 
 <script>
 
-import LoginCardVue from '@/components/LoginCard.vue';
-import RegisterCardVue from '@/components/RegisterCard.vue';
+import LoginCard from '@/components/LoginCard.vue';
+import RegisterCard from '@/components/RegisterCard.vue';
 
 export default {
   name: 'LoginView',
@@ -18,8 +18,8 @@ export default {
   }),
 
   components: {
-    'login-card': LoginCardVue,
-    'register-card': RegisterCardVue
+    LoginCard,
+    RegisterCard
   }
 }
 </script>
@@ -30,8 +30,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-color: #00647C;
 }
 </style>
