@@ -5,6 +5,7 @@ import router from './router'
 import { initializeApp } from "firebase/app"
 import { getDatabase } from "firebase/database"
 import { getAuth } from "firebase/auth"
+import VueTheMask from 'vue-the-mask'
 
 const firebaseConfig = {
   apiKey: "AIzaSyBpIOH0-WQLjuIu71kfofKbdXKTtBSCb4s",
@@ -21,6 +22,7 @@ export const db = getDatabase(firebase)
 export const auth = getAuth(firebase);
 
 Vue.config.productionTip = false
+Vue.use(VueTheMask)
 
 let app;
 auth.onAuthStateChanged(() => {

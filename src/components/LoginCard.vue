@@ -5,11 +5,11 @@
 		</v-card-title>
 		<v-card-text>
 			<v-form ref="loginForm" v-model="valido">
-				<v-text-field v-model="email" :rules="emailRegras" color="#00647C" outlined dense label="Usuário"
-					hint="CPF / E-mail / PIS">
+				<v-text-field v-model="email" :rules="emailRegras" color="#00647C" outlined dense label="E-mail">
 				</v-text-field>
 				<v-text-field :append-icon="senhaEscondida ? 'mdi-eye' : 'mdi-eye-off'" v-model="senha" :rules="senhaRegras"
-					color="#00647C" outlined dense label="Senha" :type="senhaEscondida ? 'text' : 'password'" @click:append="senhaEscondida = !senhaEscondida">
+					color="#00647C" outlined dense label="Senha" :type="senhaEscondida ? 'text' : 'password'"
+					@click:append="senhaEscondida = !senhaEscondida">
 				</v-text-field>
 			</v-form>
 			<p class="caption red--text ma-0 text-center">{{ mensagemErro }}</p>

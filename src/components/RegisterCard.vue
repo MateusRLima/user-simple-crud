@@ -21,13 +21,13 @@
                 :rules="[regras.obrigatorio]" color="#00647C" outlined dense label="Senha"
                 :type="senhaEscondida ? 'text' : 'password'" @click:append="senhaEscondida = !senhaEscondida">
               </v-text-field>
-              <v-text-field color="#00647C" v-model="cpf" outlined dense label="CPF" :rules="[regras.obrigatorio]">
+              <v-text-field hint="Não precisa colocar pontos ou hífen" v-mask="'###.###.###-##'" color="#00647C" v-model="cpf" outlined dense label="CPF" :rules="[regras.obrigatorio]">
               </v-text-field>
-              <v-text-field color="#00647C" v-model="pis" outlined dense label="PIS" :rules="[regras.obrigatorio]">
+              <v-text-field hint="Não precisa colocar pontos ou hífen" v-mask="'###.#####.##-#'" color="#00647C" v-model="pis" outlined dense label="PIS" :rules="[regras.obrigatorio]">
               </v-text-field>
               <p>Endereço</p>
               <div class="register-card-row">
-                <v-text-field class="mr-5" color="#00647C" v-model="cep" outlined dense label="CEP"
+                <v-text-field hint="Não precisa colocar pontos ou hífen" class="mr-5" v-mask="'#####-###'" color="#00647C" v-model="cep" outlined dense label="CEP"
                   :rules="[regras.obrigatorio]">
                 </v-text-field>
                 <v-text-field color="#00647C" v-model="pais" outlined dense label="País" :rules="[regras.obrigatorio]">
