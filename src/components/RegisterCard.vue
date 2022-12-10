@@ -12,7 +12,7 @@
           <v-col class="register-form-scroll">
             <p>Dados pessoais</p>
             <v-form v-model="valido" ref="cadastroForm">
-              <v-text-field color="#00647C" v-model="nome" outlined dense label="Nome" :rules="[regras.obrigatorio]">
+              <v-text-field color="#00647C" v-model="nome" outlined dense label="Nome completo" :rules="[regras.obrigatorio]">
               </v-text-field>
               <v-text-field color="#00647C" v-model="email" outlined dense label="E-mail"
                 :rules="[regras.obrigatorio, regras.email]">

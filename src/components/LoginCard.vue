@@ -4,25 +4,25 @@
 			<p class="display-1 pt-5">Olá visitante</p>
 		</v-card-title>
 		<v-card-text>
+			<v-btn @click="logarComGoogle" dense color="#FAFAFA"  width="100%"><v-icon left>mdi-google</v-icon>Entrar com o Google</v-btn>
+			<p class="text-center my-5">Ou</p>
 			<v-form ref="loginForm" v-model="valido">
-				<v-text-field v-model="email" :rules="emailRegras" color="#00647C" outlined dense label="E-mail">
+				<v-text-field prepend-inner-icon="mdi-email" v-model="email" :rules="emailRegras" color="#00647C" outlined dense label="E-mail">
 				</v-text-field>
-				<v-text-field :append-icon="senhaEscondida ? 'mdi-eye' : 'mdi-eye-off'" v-model="senha" :rules="senhaRegras"
+				<v-text-field prepend-inner-icon="mdi-key" :append-icon="senhaEscondida ? 'mdi-eye' : 'mdi-eye-off'" v-model="senha" :rules="senhaRegras"
 					color="#00647C" outlined dense label="Senha" :type="senhaEscondida ? 'text' : 'password'"
 					@click:append="senhaEscondida = !senhaEscondida">
 				</v-text-field>
 			</v-form>
 			<p class="caption red--text ma-0 text-center">{{ mensagemErro }}</p>
-		</v-card-text>
-		<v-card-actions class="login-card-actions mb-5 px-5">
 			<v-btn @click="logarUsuario" dense color="#00647C" dark width="100%" class="mb-5">Entrar</v-btn>
 			<span>Não possui cadastro? <a @click="$emit('showRegister', true)" class="register-link">Cadastre-se</a></span>
-		</v-card-actions>
+		</v-card-text>
 	</v-card>
 </template>
 <script>
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/main"
+import { signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
+import { auth, provider } from "@/main"
 
 export default {
 	name: "LoginCard",
@@ -41,6 +41,10 @@ export default {
 		valido: false,
 		mensagemErro: ""
 	}),
+
+	mounted(){
+		auth.languageCode = 'it'
+	},
 
 	methods: {
 		logarUsuario() {
@@ -66,6 +70,10 @@ export default {
 						}
 					)
 			}
+		},
+
+		logarComGoogle(){
+			signInWithRedirect(auth, provider)
 		}
 	}
 }
@@ -83,20 +91,12 @@ export default {
 		justify-content: center;
 	}
 
-	.login-card-actions {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
+	.register-link {
 		color: #00647C;
+		font-weight: bold;
 
-		.register-link {
-			color: #00647C;
-			font-weight: bold;
-
-			&:hover {
-				text-decoration: underline
-			}
+		&:hover {
+			text-decoration: underline
 		}
 	}
 }

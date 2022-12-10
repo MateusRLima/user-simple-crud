@@ -5,8 +5,8 @@
         <v-toolbar class="mb-10 home-toolbar" dense rounded>
           <v-spacer></v-spacer>
           <v-toolbar-title>
-            <p class="display-1 mb-0 home-toolbar-title">
-              Bem vindo, {{ nomeUsuario }}
+            <p class="headline mb-0 home-toolbar-title">
+              Bem vindo, {{ nomeUsuario.substring(0, nomeUsuario.indexOf(' ')) }}
             </p>
           </v-toolbar-title>
           <v-spacer></v-spacer>
@@ -21,6 +21,7 @@
 </template>
 <script>
 import { getDatabase, ref, child, get } from "firebase/database";
+import { getRedirectResult } from "firebase/auth";
 import { auth } from "@/main"
 import EditCard from "@/components/EditCard.vue"
 
@@ -28,9 +29,6 @@ export default {
 
   data: () => ({
     nomeUsuario: "",
-    usuario: {
-      nome: "",
-    }
   }),
 
   components: {
@@ -40,6 +38,13 @@ export default {
   mounted() {
     let usuario = auth.currentUser.uid
     const dbRef = ref(getDatabase());
+
+    getRedirectResult(auth).then((result) => {
+      const user = result.user
+      console.log(user)
+      this.nomeUsuario = user.displayName
+    })
+
     get(child(dbRef, `usuarios/${usuario}`)).then((usuario) => {
       if (usuario.exists()) {
         this.nomeUsuario = usuario.val().nome;
