@@ -56,14 +56,18 @@
       </v-container>
     </v-card-text>
     <v-card-actions class="edit-card-actions mb-2 px-7">
-      <v-btn dense color="#00647C" dark width="100%" class="mb-5">Editar</v-btn>
+      <span class="caption mb-2">
+        {{ mensagem }}
+      </span>
+      <v-btn @click="editarUsuario" dense color="#00647C" dark width="100%" class="mb-5">Editar</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 <script>
 
-import { getDatabase, ref, child, get } from "firebase/database";
-import { auth } from "@/main"
+import { getDatabase, ref, child, get, update } from "firebase/database";
+import { updateEmail, updatePassword } from "firebase/auth";
+import { db, auth } from "@/main"
 
 export default {
   name: "EditCard",
@@ -86,18 +90,20 @@ export default {
       obrigatorio: v => !!v || 'Campo obrigatório',
       email: v => /.+@.+\..+/.test(v) || 'E-mail precisa ser válido'
     },
-    valido: false
-
+    valido: false,
+    usuarioEditado: {
+      nome: '',
+    },
+    usuarioId: "",
+    mensagem: ""
   }),
 
   mounted() {
-    let usuario = auth.currentUser.uid
-
+    this.usuarioId = auth.currentUser.uid
     const dbRef = ref(getDatabase());
 
-    get(child(dbRef, `usuarios/${usuario}`)).then((usuario) => {
+    get(child(dbRef, `usuarios/${this.usuarioId}`)).then((usuario) => {
       if (usuario.exists()) {
-        console.log(usuario.val())
         this.nome = usuario.val().nome;
         this.pis = usuario.val().pis;
         this.pais = usuario.val().pais;
@@ -120,7 +126,38 @@ export default {
 
   methods: {
     editarUsuario() {
+      this.usuarioEditado.nome = this.nome;
+      this.usuarioEditado.pis = this.pis;
+      this.usuarioEditado.pais = this.pais;
+      this.usuarioEditado.cpf = this.cpf;
+      this.usuarioEditado.cep = this.cep;
+      this.usuarioEditado.email = this.email;
+      this.usuarioEditado.senha = this.senha;
+      this.usuarioEditado.estado = this.estado;
+      this.usuarioEditado.municipio = this.municipio;
+      this.usuarioEditado.rua = this.rua;
+      this.usuarioEditado.numero = this.numero;
+      this.usuarioEditado.complemento = this.complemento;
 
+      let updates = {}
+      updates['usuarios/' + this.usuarioId] = this.usuarioEditado
+
+      console.log(updates)
+
+      if (this.email !== this.usuarioEditado.email) {
+        updateEmail(auth.currentUser, this.usuarioEditado.email)
+
+      }
+
+      if (this.senha !== this.usuarioEditado.senha) {
+        updatePassword(auth.currentUser, this.usuarioEditado.senha)
+      }
+
+      update(ref(db), updates).then(() => {
+        this.mensagem = "Edição concluída com sucesso"
+      }).catch(() => {
+        this.mensagem = "Ocorreu um problema"
+      })
     }
   }
 }

@@ -4,8 +4,6 @@
 			<p class="display-1 pt-5">Olá visitante</p>
 		</v-card-title>
 		<v-card-text>
-			<v-btn @click="logarComGoogle" dense color="#FAFAFA"  width="100%"><v-icon left>mdi-google</v-icon>Entrar com o Google</v-btn>
-			<p class="text-center my-5">Ou</p>
 			<v-form ref="loginForm" v-model="valido">
 				<v-text-field prepend-inner-icon="mdi-email" v-model="email" :rules="emailRegras" color="#00647C" outlined dense label="E-mail">
 				</v-text-field>
@@ -21,8 +19,8 @@
 	</v-card>
 </template>
 <script>
-import { signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
-import { auth, provider } from "@/main"
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/main"
 
 export default {
 	name: "LoginCard",
@@ -71,10 +69,6 @@ export default {
 					)
 			}
 		},
-
-		logarComGoogle(){
-			signInWithRedirect(auth, provider)
-		}
 	}
 }
 </script>
